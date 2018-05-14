@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="helloWorldForm" type="com.framgia.common.form.HelloWorldForm" />
+
+        <form-bean name="memberForm"
+                   type="com.framgia.member.form.MemberForm" />
+
+        <form-bean name="dynaMemberListForm"
+                   type="org.apache.struts.action.DynaActionForm">
+        <form-property name="memberList" type="java.util.List"/>
+        </form-bean>
+    </form-beans>
+
+    <action-mappings>
+        <action path="/helloWorld" type="com.framgia.common.action.HelloWorldAction" name="helloWorldForm">
+            <forward name="success" path="/pages/helloWorld.jsp" />
+        </action>
+
+        <action
+            path="/AddMemberPage"
+            type="org.apache.struts.actions.ForwardAction"
+            parameter="/pages/member/add_member.jsp"/>
+
+        <action
+            path="/AddMember"
+            type="com.framgia.member.action.AddMemberAction"
+            name="memberForm"
+            validate="true"
+            input="/pages/member/add_member.jsp" >
+
+            <forward name="success" redirect="true" path="/ListMember.do"/>
+        </action>
+
+        <action
+            path="/ListMember"
+            type="com.framgia.member.action.ListMemberAction"
+            name="dynaMemberListForm" >
+
+            <forward name="success" path="/pages/member/list_member.jsp"/>
+        </action>
+    </action-mappings>
+
+    <message-resources
+            parameter="com.framgia.member.properties.Member" />
+
+</struts-config>
